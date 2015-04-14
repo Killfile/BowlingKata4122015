@@ -33,7 +33,15 @@ namespace BowlingKata
             
             if (tokenizedRolls[i].IsStrike())
                 return ScoreStrikeBonus(tokenizedRolls, i);
+            if (tokenizedRolls[i].IsSpare())
+                return ScoreSpareBonus(tokenizedRolls, i);
             return GetRawRollScore(tokenizedRolls, i);
+        }
+
+        private static int ScoreSpareBonus(string[] tokenizedRolls, int i)
+        {
+            return  GetRawRollScore(tokenizedRolls, i) +
+                    GetRawRollScore(tokenizedRolls, i + 1);
         }
 
         private static int GetRawRollScore(string[] tokenizedRolls, int i)
@@ -42,6 +50,8 @@ namespace BowlingKata
             if (i >= tokenizedRolls.Length)
                 return 0;
             if (tokenizedRolls[i].IsStrike())
+                return 10;
+            if (tokenizedRolls[i].IsSpare())
                 return 10;
             return ScoreStandardRoll(tokenizedRolls[i]);
             
@@ -73,6 +83,11 @@ namespace BowlingKata
     public static class StringExtensions {
         public static bool IsStrike(this string x) {
             return x == "X";
+        }
+
+        public static bool IsSpare(this string x)
+        {
+            return x[1] == '/';
         }
     }
 }

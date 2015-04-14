@@ -29,16 +29,35 @@ namespace BowlingKata.Tests
         }
 
         [Test]
-        [TestCase("-- -- -- -- -- -- -- -- -- --",0)]
-        [TestCase("1- -- -- -- -- -- -- -- -- --", 1)]
-        [TestCase("11 -- -- -- -- -- -- -- -- --",2)]
-        [TestCase("-1 -- -- -- -- -- -- -- -- --",1)]
+        
         [TestCase("X  -- -- -- -- -- -- -- -- --", 10)]
         [TestCase("X  11 11 -- -- -- -- -- -- --",18)]
         [TestCase("X  X  X  -- -- -- -- -- -- --",60)]
         [TestCase("-- -- -- -- -- -- -- -- -- X  X  X", 30)]
+        [TestCase("-- -- -- -- -- -- -- -- -- X  11  11", 14)]
         [TestCase("X X X X X X X X X X X X", 300)]
-        public void RollGivesExpectedScore(string roll, int expectedScore)
+        public void StrikeGameGivesExpectedScore(string roll, int expectedScore)
+        {
+            Assert.That(GetScore(roll), Is.EqualTo(expectedScore));
+        }
+
+        [TestCase("-- -- -- -- -- -- -- -- -- --",0)]
+        [TestCase("-- -- -- -- -- -- -- -- -- -- 55 55", 0)]
+        [TestCase("1- -- -- -- -- -- -- -- -- --", 1)]
+        [TestCase("11 -- -- -- -- -- -- -- -- --",2)]
+        [TestCase("-1 -- -- -- -- -- -- -- -- --",1)]
+        public void NumericGameGivesExpectedScore(string roll, int expectedScore)
+        {
+            Assert.That(GetScore(roll), Is.EqualTo(expectedScore));
+        }
+
+        [TestCase("5/ -- -- -- -- -- -- -- -- --", 10)]
+        [TestCase("5/ 5- -- -- -- -- -- -- -- --", 20)]
+        [TestCase("5/ -5 -- -- -- -- -- -- -- --", 20)]
+        [TestCase("5/ -5 -5 -- -- -- -- -- -- --", 25)]
+        [TestCase("-- -- -- -- -- -- -- -- -- 5/ -5", 15)]
+        [TestCase("-- -- -- -- -- -- -- -- -- 5/ -5 -5", 15)]
+        public void SpareGameGivesExpectedScore(string roll, int expectedScore)
         {
             Assert.That(GetScore(roll), Is.EqualTo(expectedScore));
         }
